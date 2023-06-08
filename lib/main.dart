@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:demo_app/model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-// import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -36,13 +35,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Welcome> welcome = [];
+  List<Dishes> dishes = [];
 
   Future<void> _refresh() async {
-    final randomIndex = Random().nextInt(welcome.length);
+    final randomIndex = Random().nextInt(dishes.length);
     await Future.delayed(const Duration(seconds: 2));
     setState(() {
-      welcome = [welcome[randomIndex], ...welcome];
+      dishes = [dishes[randomIndex], ...dishes];
     });
   }
 
@@ -77,21 +76,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemBuilder: (context, index) {
                       return ListTile(
                         leading: CircleAvatar(
-                          backgroundImage: NetworkImage(welcome[index].image),
+                          backgroundImage: NetworkImage(dishes[index].image),
                           radius: 30,
                         ),
-                        title: Text(welcome[index].title,
+                        title: Text(dishes[index].title,
                             maxLines: 1,
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w500)),
                         subtitle: Text(
-                          welcome[index].description,
+                          dishes[index].description,
                           maxLines: 1,
                         ),
                         trailing: const Icon(Icons.add),
                       );
                     },
-                    itemCount: welcome.length,
+                    itemCount: dishes.length,
                     separatorBuilder: (context, index) {
                       return const Divider(height: 20);
                     },
@@ -103,17 +102,18 @@ class _MyHomePageState extends State<MyHomePage> {
             }));
   }
 
-  Future<List<Welcome>> getData() async {
+//---------function to make a get request----------//
+  Future<List<Dishes>> getData() async {
     final response = await http.get(Uri.parse('https://kapiva.onrender.com/'));
     var data = jsonDecode(response.body.toString());
 
     if (response.statusCode == 200) {
       for (Map<String, dynamic> index in data) {
-        welcome.add(Welcome.fromJson(index));
+        dishes.add(Dishes.fromJson(index));
       }
-      return welcome;
+      return dishes;
     } else {
-      return welcome;
+      return dishes;
     }
   }
 }

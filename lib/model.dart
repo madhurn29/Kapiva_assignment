@@ -1,29 +1,29 @@
 // To parse this JSON data, do
 //
-//     final welcome = welcomeFromJson(jsonString);
+//
 
 import 'dart:convert';
 
-List<Welcome> welcomeFromJson(String str) =>
-    List<Welcome>.from(json.decode(str).map((x) => Welcome.fromJson(x)));
-
-String welcomeToJson(List<Welcome> data) =>
+List<Dishes> dishesFromJson(String str) =>
+    List<Dishes>.from(json.decode(str).map((x) => Dishes.fromJson(x)));
+//creating dishes model here
+String dishesToJson(List<Dishes> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Welcome {
+class Dishes {
   String image;
   String title;
   String price;
   String description;
 
-  Welcome({
+  Dishes({
     required this.image,
     required this.title,
     required this.price,
     required this.description,
   });
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+  factory Dishes.fromJson(Map<String, dynamic> json) => Dishes(
         image: json["image"],
         title: json["title"],
         price: json["price"],
